@@ -1,0 +1,4 @@
+#Python Library Requirements
+pandas
+openpyxl
+xlrd
