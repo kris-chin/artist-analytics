@@ -1,5 +1,8 @@
 #Development Stuff
-TODO
+TODO.md
 
 #This folder contains all of our CSVs, TSVs, Sheets, etc.
 data
+
+#Python
+__pycache__
