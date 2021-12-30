@@ -31,23 +31,7 @@ if __name__ == "__main__":
 
     #Create extractors
     distrokid = Distrokid(filenames['distrokid'])
-    spotify_for_artists = SpotifyForArtists(
-        (filenames['recordings'], "N/A"), (filenames['playlists'], "N/A"), (filenames['audience'], "N/A")
-    )
+    spotify_for_artists = SpotifyForArtists((filenames['recordings'], "N/A"), (filenames['playlists'], "N/A"), (filenames['audience'], "N/A"))
     spotify_for_developers = SpotifyForDevelopers(Auth.GenerateSpotifyAuthToken())
     symphonic = Symphonic(filenames['symphonic'])
     ascap = Ascap(filenames['ascap'])
-
-    #Test
-    print(distrokid.GetDataframe())
-    print(spotify_for_artists.GetRecordingsDataframe())
-    print(spotify_for_artists.GetPlaylistsDataframe())
-    print(spotify_for_artists.GetAudienceDataframe())
-    print(symphonic.GetDataframe())
-    print(ascap.GetDataframe())
-
-    v1 = "https://api.spotify.com/v1/"
-
-    #print(spotify_for_developers.MakeAPICall(v1 + "tracks",
-    #    query={'ids' : "1gjhtLqLPbYwIAWWkwy4Uj,5LUvsqn3ArfKKAtsYaS6l5"}
-    #))
