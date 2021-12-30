@@ -1,3 +1,4 @@
+from pipelines import Pipeline
 import pytest
 import pandas
 from pathlib import Path
@@ -10,7 +11,7 @@ class TestDistrokid:
     #Is Pipeline Importable?
     def test_import(self):
         try:
-            from src.pipelines.distrokid import Distrokid
+            from src.pipelines import Distrokid
             distrokid = Distrokid(p)
             assert 1
 

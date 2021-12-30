@@ -5,11 +5,11 @@ import logging as l
 import Auth
 
 #Import ETL Pipelines
-from pipelines.distrokid import Distrokid
-from pipelines.spotify_for_artists import SpotifyForArtists
-from pipelines.spotify_for_developers import SpotifyForDevelopers
-from pipelines.symphonic import Symphonic
-from pipelines.ascap import Ascap
+from pipelines import Distrokid
+from pipelines import SpotifyForArtists
+from pipelines import SpotifyForDevelopers
+from pipelines import Symphonic
+from pipelines import Ascap
 
 if __name__ == "__main__":
 
