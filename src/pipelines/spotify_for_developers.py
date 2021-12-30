@@ -5,14 +5,14 @@ import requests as r
 
 class SpotifyForDevelopers:
 
-    def __init__(self, authToken):
+    def __init__(self, authToken: str):
         if authToken == None:
             l.error("Failed to Initalize SpotifyForDevelopers Pipeline")
         else:
             self.authToken = authToken
     
     #Private Methods for making API calls. We don't want to be using these directly, instead, we'll call these in bulk for a "Complete" Extaction
-    def __MakeAPICall(self, endpoint, query=None):
+    def __MakeAPICall(self, endpoint : str, query=None):
         try:
             l.debug("Attempting to make API call to spotify")
             

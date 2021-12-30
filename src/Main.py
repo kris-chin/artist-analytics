@@ -4,10 +4,10 @@ import logging as l
 #Import Authorization Functions
 import Auth
 
-#Import Extractors
-import extracts.distrokid
-import extracts.spotify_for_artists
-import extracts.spotify_for_developer
+#Import ETL Pipelines
+from pipelines.distrokid import Distrokid
+from pipelines.spotify_for_artists import SpotifyForArtists
+from pipelines.spotify_for_developers import SpotifyForDevelopers
 
 if __name__ == "__main__":
 
@@ -26,11 +26,11 @@ if __name__ == "__main__":
     }
 
     #Create extractors
-    distrokid = extracts.distrokid.Distrokid(filenames['distrokid'])
-    spotify_for_artists = extracts.spotify_for_artists.SpotifyForArtists(
+    distrokid = Distrokid(filenames['distrokid'])
+    spotify_for_artists = SpotifyForArtists(
         (filenames['recordings'], "N/A"), (filenames['playlists'], "N/A"), (filenames['audience'], "N/A")
     )
-    spotify_for_developer = extracts.spotify_for_developer.SpotifyForDevelopers(Auth.GenerateSpotifyAuthToken())
+    spotify_for_developer = SpotifyForDevelopers(Auth.GenerateSpotifyAuthToken())
 
     #Test
     print(distrokid.GetDataframe())
@@ -38,4 +38,8 @@ if __name__ == "__main__":
     print(spotify_for_artists.GetPlaylistsDataframe())
     print(spotify_for_artists.GetAudienceDataframe())
 
-    print(spotify_for_developer.GetSongData("1gjhtLqLPbYwIAWWkwy4Uj"))
+    v1 = "https://api.spotify.com/v1/"
+
+    #print(spotify_for_developer.MakeAPICall(v1 + "tracks",
+    #    query={'ids' : "1gjhtLqLPbYwIAWWkwy4Uj,5LUvsqn3ArfKKAtsYaS6l5"}
+    #))
