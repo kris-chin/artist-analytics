@@ -20,6 +20,7 @@ class SpotifyForArtists:
             l.debug("Successfully read recordings csv")
         except Exception as e:
             l.error("error")
+            l.error(e)
         
         #Playlists CSV
         try:
@@ -28,6 +29,7 @@ class SpotifyForArtists:
             l.debug("Successfully read playlists csv")
         except Exception as e:
             l.error("error")
+            l.error(e)
 
         #Audience CSV
         try:
@@ -36,6 +38,7 @@ class SpotifyForArtists:
             l.debug("Successfully read audience csv")
         except Exception as e:
             l.error("error")
+            l.error(e)
 
     def GetRecordingsDataframe(self): return self.recordings_dataframe
     def GetPlaylistsDataframe(self): return self.playlists_dataframe
