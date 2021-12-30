@@ -1,5 +1,6 @@
 #Development Stuff
 TODO.md
+.env
 
 #This folder contains all of our CSVs, TSVs, Sheets, etc.
 data

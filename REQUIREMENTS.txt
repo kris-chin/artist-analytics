@@ -2,3 +2,5 @@
 pandas
 openpyxl
 xlrd
+requests
+python-dotenv
