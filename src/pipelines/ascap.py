@@ -1,14 +1,16 @@
+from .abstract_pipeline import Pipeline
+
 import pandas
 import logging as l
 
-class Ascap:
+class Ascap(Pipeline):
 
     #path = file path
     #source_date = date of source
     def __init__(self, path: str, source_date:str = "N/A"):
         try:
             l.debug("Attempting to read ASCAP csv...")
-            self.dataframe = pandas.read_csv(path)
+            self.__dataframe = pandas.read_csv(path)
             l.debug("Successfully read ASCAP csv")
         except Exception as e:
             l.error("Failed to load ASCAP csv")
@@ -16,4 +18,4 @@ class Ascap:
             exit()
 
     def GetDataframe(self):
-        return self.dataframe
+        return self.__dataframe
