@@ -42,71 +42,80 @@ pipelines = [
 class TestPipeline:
 
     #This suite is for pipeline meta
+    @pytest.mark.dependency(name="meta")
     class TestMeta:
 
         #Does the pipeline have a name value?
+        @pytest.mark.dependency()
         def test_HasName(self,pipeline:Pipeline):
             assert 1
 
         #Does the pipeline provide a dataframe?
+        @pytest.mark.dependency()
         def test_HasDataframe(self, pipeline: Pipeline):
             assert 1
 
         #Does the pipeline provide acesss-dates for its data?
+        @pytest.mark.dependency()
         def test_HasSourceDates(self, pipeline: Pipeline):
             assert 1
 
     #===================================================================================================
 
-    #This test suite contains all tests regarding the Date Column Fromatting
-    #This is specifically TIME data. not RELEASE DATE data
-    class TestDate:
+    #Suite for Pipeline formatting
+    class TestFormatting:
 
-        #Does the Pipeline have a properly-formatted Date Column?
-        def test_IsDateFormatted(self, pipeline: Pipeline):
-            assert 1
+        #This test suite contains all tests regarding the Date Column Fromatting
+        #This is specifically TIME data. not RELEASE DATE data
+        class TestDate:
 
-        #
-        def test_IsTimeFormatted(self, pipeline: Pipeline):
-            assert 1
+            #Does the Pipeline have a properly-formatted Date Column?
+            def test_IsDateFormatted(self, pipeline: Pipeline):
+                assert 1
 
-    #This test suite contains all tests regarding Song Title Column
-    class TestSongTitle:
-        
-        #Does the Song Title Column have the right name?
-        def test_IsColumnFormatted(self, pipeline: Pipeline):
-            assert 1
+            #
+            def test_IsTimeFormatted(self, pipeline: Pipeline):
+                assert 1
 
-    class TestStreamCount:
+        #This test suite contains all tests regarding Song Title Column
+        class TestSongTitle:
+            
+            #Does the Song Title Column have the right name?
+            def test_IsColumnFormatted(self, pipeline: Pipeline):
+                assert 1
 
-        #Does the Streams Column have the right name?
-        def test_IsStreamsFormatted(self, pipeline: Pipeline):
-            assert 1
+        class TestStreamCount:
 
-    class TestISRC:
+            #Does the Streams Column have the right name?
+            def test_IsStreamsFormatted(self, pipeline: Pipeline):
+                assert 1
 
-        #Does the ISRC Column have the right name?
-        def test_IsISRCFormatted(self, pipeline: Pipeline):
-            assert 1
+        class TestISRC:
 
-    class TestReleaseDate:
+            #Does the ISRC Column have the right name?
+            def test_IsISRCFormatted(self, pipeline: Pipeline):
+                assert 1
 
-        #Does the Release Date column have the right name?
-        def test_IsReleaseDateFormatted(self, pipeline: Pipeline):
-            assert 1
+        class TestReleaseDate:
 
-    class TestArtistName:
+            #Does the Release Date column have the right name?
+            def test_IsReleaseDateFormatted(self, pipeline: Pipeline):
+                assert 1
 
-        #Does the Artist Name colum have the correct name?
-        def test_IsArtistNameFormatted(self, pipeline: Pipeline):
-            assert 1
+        class TestArtistName:
+
+            #Does the Artist Name colum have the correct name?
+            def test_IsArtistNameFormatted(self, pipeline: Pipeline):
+                assert 1
 
     #===================================================================================================
 
     #This Suite is for tests on the overall dataframe
+    @pytest.mark.dependency(name="dataframe",depends=["meta"])
     class TestDataframe:
 
         #Contains any of the above column names. (Can we even work with the data?)
+        @pytest.mark.dependency()
         def test_HasJoinableData(self, pipeline: Pipeline):
             print("This pipeline has joinable data:")
             print(pipeline)
