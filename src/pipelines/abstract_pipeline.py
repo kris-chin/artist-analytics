@@ -2,18 +2,19 @@ import pandas
 import logging as l
 from abc import ABC, abstractmethod
 
-#Abstract Method for all Pipelines
+#Abstract Class for all Pipelines
 class Pipeline(ABC):
 
-    @abstractmethod
     def __init__(self):
-        self.__dataframe : pandas.DataFrame = NotImplemented
-        self.__name : str = NotImplemented
+        self.__dataframe : pandas.DataFrame = NotImplemented #Dataframe
+        self.__name : str = NotImplemented #Name of the pipeline
+        self.__sourceDate : str = NotImplemented #Date that the data file was created
 
     @abstractmethod
-    def GetDataframe(self):
-        return self.__dataframe
+    def GetDataframe(self): return self.__dataframe
 
     @property
-    def name(self):
-        return self.__name
+    def name(self): return self.__name
+    
+    @property
+    def sourceDate(self) : return self.__sourceDate

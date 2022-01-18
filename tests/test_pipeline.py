@@ -27,11 +27,11 @@ f = {
 
 #Set up Pipeline list
 pipelines = [
-    Distrokid(f['distrokid']),
-    SpotifyForArtists((f['recordings'], "N/A"), (f['playlists'], "N/A"), (f['audience'], "N/A")),
-    SpotifyForDevelopers(Auth.GenerateSpotifyAuthToken()),
-    Symphonic(f['symphonic']),
-    Ascap(f['ascap'])
+    Distrokid(f['distrokid'])
+    #SpotifyForArtists((f['recordings'], "N/A"), (f['playlists'], "N/A"), (f['audience'], "N/A")),
+    #SpotifyForDevelopers(Auth.GenerateSpotifyAuthToken()),
+    #Symphonic(f['symphonic'])
+    #Ascap(f['ascap'])
 ]
 
 #===================================================================================================
@@ -48,21 +48,22 @@ class TestPipeline:
         #Does the pipeline have a name value?
         @pytest.mark.dependency()
         def test_HasName(self,pipeline:Pipeline):
-            assert 1
+            assert pipeline.name
 
-        #Does the pipeline provide a dataframe?
+        #Does the pipeline provide a dataframe that has data?
         @pytest.mark.dependency()
         def test_HasDataframe(self, pipeline: Pipeline):
-            assert 1
+            assert pipeline.GetDataframe().empty == False
 
         #Does the pipeline provide acesss-dates for its data?
         @pytest.mark.dependency()
         def test_HasSourceDates(self, pipeline: Pipeline):
-            assert 1
+            assert pipeline.sourceDate
 
     #===================================================================================================
 
     #Suite for Pipeline formatting
+    @pytest.mark.skip(reason="Test not written yet")
     class TestFormatting:
 
         #This test suite contains all tests regarding the Date Column Fromatting
@@ -112,6 +113,7 @@ class TestPipeline:
 
     #This Suite is for tests on the overall dataframe
     @pytest.mark.dependency(name="dataframe",depends=["meta"])
+    @pytest.mark.skip(reason="Test not written yet")
     class TestDataframe:
 
         #Contains any of the above column names. (Can we even work with the data?)
