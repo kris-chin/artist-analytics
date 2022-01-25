@@ -63,57 +63,74 @@ class TestPipeline:
     #===================================================================================================
 
     #Suite for Pipeline formatting
-    @pytest.mark.skip(reason="Test not written yet")
+    
     class TestFormatting:
 
         #This test suite contains all tests regarding the Date Column Fromatting
         #This is specifically TIME data. not RELEASE DATE data
         class TestDate:
 
-            #Does the Pipeline have a properly-formatted Date Column?
-            def test_IsDateFormatted(self, pipeline: Pipeline):
-                assert 1
+            #Does the pipeline HAVE a date? and is the name formatted correctly?
+            @pytest.mark.dependency(name="hasDate")
+            def test_hasDate(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                assert 'reporting_date' in df.columns
 
-            #
-            def test_IsTimeFormatted(self, pipeline: Pipeline):
-                assert 1
+            #Does the Pipeline have a properly-formatted Date Column?
+            @pytest.mark.dependency(depends=["hasDate"])
+            def test_IsDateFormatted(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                regex = r'\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])' #regex for YYYY-MM-DD
+                assert df['Reporting Date'].str.match(regex).astype(bool).all() == True
 
         #This test suite contains all tests regarding Song Title Column
         class TestSongTitle:
             
             #Does the Song Title Column have the right name?
-            def test_IsColumnFormatted(self, pipeline: Pipeline):
-                assert 1
+            def test_hasSongTitle(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                assert 'song_title' in df.columns
 
-        class TestStreamCount:
+        # class TestStreamCount:
 
-            #Does the Streams Column have the right name?
-            def test_IsStreamsFormatted(self, pipeline: Pipeline):
-                assert 1
+        #     #Does the Streams Column have the right name?
+        #     def test_hasStreams(self, pipeline: Pipeline):
+        #         df = pipeline.GetDataframe()
+        #         assert 'streams' in df.columns
 
         class TestISRC:
 
             #Does the ISRC Column have the right name?
-            def test_IsISRCFormatted(self, pipeline: Pipeline):
-                assert 1
+            def test_hasISRC(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                assert 'ISRC' in df.columns
 
         class TestReleaseDate:
 
-            #Does the Release Date column have the right name?
-            def test_IsReleaseDateFormatted(self, pipeline: Pipeline):
-                assert 1
+            #Does the pipeline HAVE a date? and is the name formatted correctly?
+            @pytest.mark.dependency(name="hasReleaseDate")
+            def test_hasReleaseDate(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                assert 'release_date' in df.columns
 
+            #Does the Pipeline have a properly-formatted Date Column?
+            @pytest.mark.dependency(depends=["hasReleaseDate"])
+            def test_IsReleaseDateFormatted(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                regex = r'\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])' #regex for YYYY-MM-DD
+                assert df['release_date'].str.match(regex).astype(bool).all() == True
         class TestArtistName:
 
             #Does the Artist Name colum have the correct name?
-            def test_IsArtistNameFormatted(self, pipeline: Pipeline):
-                assert 1
+            def test_hasArtistName(self, pipeline: Pipeline):
+                df = pipeline.GetDataframe()
+                assert 'artist' in df.columns
 
     #===================================================================================================
 
     #This Suite is for tests on the overall dataframe
     @pytest.mark.dependency(name="dataframe",depends=["meta"])
-    @pytest.mark.skip(reason="Test not written yet")
+   # @pytest.mark.skip(reason="Test not written yet")
     class TestDataframe:
 
         #Contains any of the above column names. (Can we even work with the data?)

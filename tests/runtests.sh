@@ -1,2 +1,2 @@
 #Runs tests and includes Standard Output from Passing Tests
-pytest -rP
+pytest -rP --tb=native
