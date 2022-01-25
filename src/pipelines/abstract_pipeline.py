@@ -1,4 +1,3 @@
-import pandas
 import logging as l
 from abc import ABC, abstractmethod
 

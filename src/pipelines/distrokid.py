@@ -3,6 +3,10 @@ from .abstract_pipeline import Pipeline
 import pandas
 import logging as l
 
+#imports for modification time
+import os
+from datetime import datetime
+
 #Distrokid extractor specifically for the Distrokid.TSV
 class Distrokid(Pipeline):
 
@@ -13,7 +17,8 @@ class Distrokid(Pipeline):
             l.debug("Attempting to read Distrokid tsv...")
 
             self.__name = 'Distrokid'
-            self.__dataframe = pandas.read_csv(path, sep='\t')
+            self.__dataframe : pandas.DataFrame = pandas.read_csv(path, sep='\t')
+            self.__sourceDate = datetime.fromtimestamp(os.path.getmtime(path)).strftime("%Y-%m-%d")
 
             l.debug("Successfully read Distrokid tsv")
         except Exception as e:
@@ -21,9 +26,22 @@ class Distrokid(Pipeline):
             l.error(e)
             exit()
 
-    def GetDataframe(self): return self.__dataframe
+    def GetDataframe(self): 
+        #Data Cleaning Operations
+
+        #Rename Columns
+        columns={
+            'Reporting Date' : 'reporting_date',
+            'Title' : 'song_title',
+            'Artist' : 'artist'
+        }
+
+        self.__dataframe = self.__dataframe.rename(columns=columns)
+        
+        return self.__dataframe
 
     @property
     def name(self): return self.__name
 
-    #TODO Function to clean dataframe for universal use, table-joining
+    @property
+    def sourceDate(self): return self.__sourceDate
