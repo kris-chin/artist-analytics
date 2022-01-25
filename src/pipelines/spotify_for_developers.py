@@ -1,9 +1,11 @@
+from .abstract_pipeline import Pipeline
+
 #Data Handling Imports
 import pandas
 import logging as l 
 import requests as r
 
-class SpotifyForDevelopers:
+class SpotifyForDevelopers(Pipeline):
 
     def __init__(self, authToken: str):
         if authToken == None:
@@ -68,3 +70,6 @@ class SpotifyForDevelopers:
             'artist_info' : artist_info,
             'related_artists' : related_artists
         }
+
+    def GetDataframe(self):
+        return self.__dataframe

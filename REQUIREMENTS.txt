@@ -4,3 +4,5 @@ openpyxl
 xlrd
 requests
 python-dotenv
+pytest
+pytest-dependency
