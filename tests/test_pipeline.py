@@ -8,7 +8,6 @@ from src import Auth #SpotifyForDevleopers Authorization Token
 
 import pytest
 
-import pandas
 from pathlib import Path
 
 #Get Data Directory
@@ -81,7 +80,7 @@ class TestPipeline:
             def test_IsDateFormatted(self, pipeline: Pipeline):
                 df = pipeline.GetDataframe()
                 regex = r'\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])' #regex for YYYY-MM-DD
-                assert df['Reporting Date'].str.match(regex).astype(bool).all() == True
+                assert df['reporting_date'].str.match(regex).astype(bool).all() == True
 
         #This test suite contains all tests regarding Song Title Column
         class TestSongTitle:
