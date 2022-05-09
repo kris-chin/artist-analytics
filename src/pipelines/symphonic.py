@@ -18,4 +18,14 @@ class Symphonic(Pipeline):
             exit()
 
     def GetDataframe(self):
+
+        columns={
+            'Release Artists' : 'artist',
+            'Release Name' : 'song_title'
+        }
+
+        #TODO: reformat "reporting period" to match "sale month" formatting
+
+        self.__dataframe = self.__dataframe.rename(columns=columns)
+
         return self.__dataframe

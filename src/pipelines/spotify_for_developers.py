@@ -10,6 +10,7 @@ class SpotifyForDevelopers(Pipeline):
     def __init__(self, authToken: str):
         if authToken == None:
             l.error("Failed to Initalize SpotifyForDevelopers Pipeline")
+            raise ValueError('Invalid AuthToken for SpotifyForDevelopers')
         else:
             self.authToken = authToken
     

@@ -13,6 +13,10 @@ def GenerateSpotifyAuthToken() -> str :
     client_id = environ.get('CLIENT_ID')
     client_secret = environ.get('CLIENT_SECRET')
 
+    if (client_id == None or client_secret == None):
+        l.error("No CLIENT_ID or CLIENT_SECRET environment variables found")
+        return None
+
     #Set up our Authorization Token
     auth_options = {
         'url' : 'https://accounts.spotify.com/api/token',

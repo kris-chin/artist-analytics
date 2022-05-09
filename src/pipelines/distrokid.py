@@ -33,7 +33,8 @@ class Distrokid(Pipeline):
         columns={
             'Reporting Date' : 'reporting_date',
             'Title' : 'song_title',
-            'Artist' : 'artist'
+            'Artist' : 'artist',
+            'Sale Month' : 'sale_month'
         }
 
         self.__dataframe = self.__dataframe.rename(columns=columns)
