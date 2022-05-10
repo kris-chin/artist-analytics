@@ -61,7 +61,14 @@ if __name__ == "__main__":
     merged_dataframe = pd.DataFrame({
         'artist': [],
         'reporting_date' : [],
-        'song_title' : []
+        'song_title' : [],
+        'sale_month' : [],
+        'isrc' : [],
+        'quantity' : [],
+        'store' : [],
+        'upc' : [],
+        'country' : [],
+        'earnings (USD)' : []
 
     })
 
@@ -70,11 +77,13 @@ if __name__ == "__main__":
         try:
             dataframe = extractor.GetDataframe()
             #merge this dataframe with our existing dataframe
-            merged_dataframe = pd.merge(merged_dataframe, dataframe, how="outer")
+            merged_dataframe = pd.concat([merged_dataframe, dataframe])
             l.debug("[" + str(type(extractor).__name__) + "]: Successfully merged data")
         except AttributeError as e:
             l.error(e)
         except pd.errors.MergeError as e:
+            l.error("[" + str(type(extractor).__name__) +"]: " + str(e))
+        except ValueError as e:
             l.error("[" + str(type(extractor).__name__) +"]: " + str(e))
 
     #We have a pre-existing path variable still in this script

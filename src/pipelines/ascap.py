@@ -18,4 +18,13 @@ class Ascap(Pipeline):
             exit()
 
     def GetDataframe(self):
+        columns = {
+            'Work Title' : 'song_title',
+            'Dollars' : 'earnings (USD)',
+            'Music User' : 'store',
+            'Territory' : 'country'
+        }
+
+        self.__dataframe = self.__dataframe.rename(columns=columns)
+
         return self.__dataframe

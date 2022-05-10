@@ -34,7 +34,13 @@ class Distrokid(Pipeline):
             'Reporting Date' : 'reporting_date',
             'Title' : 'song_title',
             'Artist' : 'artist',
-            'Sale Month' : 'sale_month'
+            'Sale Month' : 'sale_month',
+            'ISRC' : 'isrc',
+            'Quantity' : 'quantity',
+            'Store' : 'store',
+            'UPC' : 'upc',
+            'Country of Sale' : 'country',
+            'Earnings (USD)' : 'earnings (USD)' 
         }
 
         self.__dataframe = self.__dataframe.rename(columns=columns)

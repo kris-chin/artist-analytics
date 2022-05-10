@@ -1,3 +1,4 @@
+from re import M
 from .abstract_pipeline import Pipeline
 
 import pandas
@@ -20,8 +21,14 @@ class Symphonic(Pipeline):
     def GetDataframe(self):
 
         columns={
-            'Release Artists' : 'artist',
-            'Release Name' : 'song_title'
+            'Track Artists' : 'artist',
+            'Track Title' : 'song_title',
+            'Royalty ($US)' : 'earnings (USD)',
+            'ISRC Code' : 'isrc',
+            'Count' : 'quantity',
+            'Digital Service Provider' : 'store',
+            'UPC Code' : 'upc',
+            'Territory' : 'country'
         }
 
         #TODO: reformat "reporting period" to match "sale month" formatting
