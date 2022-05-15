@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(lubridate)
+library(DT)
 
 #Change port so it's the same every time
 options(shiny.port = 8888)
@@ -19,6 +20,9 @@ merged_data$sale_month <- as.Date(parse_date_time(merged_data$sale_month, "ym"))
 
 #UI
 ui <- fluidPage(
+
+    #App Title
+    titlePanel("Artist-Analytics"),
 
     #Display a layout with a sidebar
     sidebarLayout(
@@ -68,13 +72,27 @@ ui <- fluidPage(
                 inputId = "y",
                 label = "Y-axis",
                 choices = colnames(merged_data),
-                selected = colnames(merged_data)[1]
-            )
+                selected = "quantity"
+            ),
+
+            checkboxInput(
+                inputId = "aggregate_x",
+                label = "Aggregate values that share same X value",
+                value = FALSE
+            ),
+
+            verbatimTextOutput("click_info")
         ),
 
         #Main Display (output)
         mainPanel(
-            plotOutput(outputId = "scatterplot")
+            plotOutput(
+                outputId = "scatterplot",
+                click = "plot_click"
+            ),
+            dataTableOutput(
+                outputId = "table"
+            )
         )
     )
 )
@@ -93,9 +111,30 @@ server <- function(input, output) {
         }
     })
 
-    #set conditional data based on input choice
+    #Get data based off of our input values
     display_data <- reactive({
-        merged_data[merged_data[[input$column_filter]] == filter_value(), ]
+        #Get data based on filter
+        return_data <- merged_data[merged_data[[input$column_filter]] == filter_value(), ]
+
+        #Aggregate data?
+        if (input$aggregate_x == TRUE) {
+            #If Y value is NOT numerical
+            if (!is.numeric(return_data[[input$y]])){
+                print(paste("Y-Value '", input$y, "' is not numerical!"))
+            } else {
+                return_data <- aggregate(
+                    return_data[[input$y]],
+                    list(return_data[["sale_month"]]),
+                    FUN = sum
+                )
+
+                return_data <- setNames(return_data,
+                    c("sale_month", input$y)
+                )
+            }
+        }
+
+        return_data
     })
 
     #Plot title
@@ -116,6 +155,19 @@ server <- function(input, output) {
         theme(
             axis.text.x = element_text(angle = 60, hjust = 1)
         )
+    })
+
+    output$table <- renderDataTable({
+        DT::datatable(
+            data = display_data(),
+            options = list(
+                scrollX = T
+            )
+        )
+    })
+
+    output$click_info <- renderText({
+        paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
     })
 }
 
