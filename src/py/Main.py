@@ -5,7 +5,7 @@ import logging as l
 import pandas as pd
 
 #Import Authorization Functions
-import Auth
+import src.py.Auth as Auth
 
 #Import ETL Pipelines
 from pipelines import Distrokid

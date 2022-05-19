@@ -4,7 +4,7 @@
 #
 #====================================================
 from src.pipelines import * #Import all of our Pipelines
-from src import Auth #SpotifyForDevleopers Authorization Token
+from src.py import Auth #SpotifyForDevleopers Authorization Token
 
 import pytest
 

@@ -1,0 +1,13 @@
+.dockerignore
+.gitignore
+Dockerfile
+Dockerfile.prod
+
+docker_build.sh
+docker_run.sh
+
+__pycache__/
+.venv/
+
+tests/
+output/
