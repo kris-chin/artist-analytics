@@ -25,6 +25,16 @@ Data Sources that I plan on adding:
 
 As of right now, I have yet to setup the Docker image to be an executable image. If you still want to use this software, you'll need to build and run the Docker image. **See "Development"**
 
+## Usage
+
+Put all relevent CSVs into a new folder named `data/`. Rename them based on the following schema:
+    
+``
+Distrokid - "DistroKid.csv"
+Symphonic - "symphonic.csv"
+ASCAP - "ascap.csv"
+``
+
 ## Development
 
 ### Setup
