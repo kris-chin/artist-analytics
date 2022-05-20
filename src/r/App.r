@@ -19,11 +19,10 @@ merged_data <- read.csv(
 #then convert to date object
 merged_data$sale_month <- as.Date(parse_date_time(merged_data$sale_month, "ym"))
 
-#UI
-ui <- fluidPage(
-
+#Define the "Time Series" page of the UI
+time_series <- fluidPage(
     #App Title
-    titlePanel("Artist-Analytics"),
+    titlePanel("Time Series Analysis"),
 
     #Display a layout with a sidebar
     sidebarLayout(
@@ -127,6 +126,26 @@ ui <- fluidPage(
             )
         )
     )
+)
+
+#Map Page
+map <- fluidPage(
+    titlePanel("Map"),
+
+    sidebarLayout(
+        sidebarPanel(
+
+        ),
+
+        mainPanel(
+        )
+    )
+)
+
+#UI
+ui <- navbarPage("Artist-Analytics",
+    tabPanel("Time-Series", time_series),
+    tabPanel("Map", map)
 )
 
 #Server
@@ -262,10 +281,6 @@ server <- function(input, output) {
             )
         )
     })
-
-    # output$click_info <- renderText({
-    #     paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
-    # })
 }
 
 #Create Shiny App by combining UI and Server
