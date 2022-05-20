@@ -12,7 +12,7 @@ Some of the supported data sources include:
 - [Symphonic](https://symphonic.com/) (CSV)
 - [Spotify for Artists](https://artists.spotify.com/) (CSV)
 - [ASCAP](https://www.ascap.com/) (CSV)
-- [Spotify for Developers WEB API](https://developer.spotify.com/documentation/web-api/) JSON)
+- [Spotify for Developers WEB API](https://developer.spotify.com/documentation/web-api/) (JSON) (WIP)
 
 **WARNING: This project is still REALLY WIP. I plan on improving both the UX and the DX**
 
