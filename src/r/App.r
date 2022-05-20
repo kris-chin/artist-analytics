@@ -2,6 +2,7 @@ library(shiny)
 library(ggplot2)
 library(lubridate)
 library(DT)
+library(plotly)
 
 #Change port so it's the same every time
 options(shiny.port = 8888, shiny.host = "0.0.0.0")
@@ -75,6 +76,13 @@ ui <- fluidPage(
                 selected = "quantity"
             ),
 
+            selectInput(
+                inputId = "group",
+                label = "Group By",
+                choices = c("store", "country"),
+                selected = "store"
+            ),
+
             checkboxInput(
                 inputId = "aggregate_x",
                 label = "Aggregate values that share same X value",
@@ -111,9 +119,8 @@ ui <- fluidPage(
 
         #Main Display (output)
         mainPanel(
-            plotOutput(
+            plotlyOutput(
                 outputId = "plot",
-                click = "plot_click"
             ),
             dataTableOutput(
                 outputId = "table"
@@ -157,12 +164,12 @@ server <- function(input, output) {
                 if (input$aggregate_method == "Category") { #Aggregate by category
                     return_data <- aggregate(
                         #Explanation for '~': LHS = what to compute for, RHS what to aggregate by
-                        return_data[[input$y]] ~ return_data[["sale_month"]] + return_data[["store"]],
+                        return_data[[input$y]] ~ return_data[["sale_month"]] + return_data[[input$group]],
                         FUN = sum
                     )
 
                     return_data <- setNames(return_data,
-                        c("sale_month", "store", input$y)
+                        c("sale_month", input$group, input$y)
                     )
                 } else if (input$aggregate_method == "Complete"){ #Completely combine everything
                     return_data <- aggregate(
@@ -191,29 +198,29 @@ server <- function(input, output) {
                 mapping = aes_string(x = "sale_month", y = input$y)
             ) +
             geom_point(
-                aes(color = data$store)
+                aes(color = data[[input$group]])
             )
         } else if (input$graph_type == "Line") {
 
-            stores <- factor(data$store)
-            if (length(stores) == 0) {
-                stores <- NULL
+            groups <- factor(data[[input$group]])
+            if (length(groups) == 0) {
+                groups <- NULL
             }
 
             #Start with the plot
             p <- ggplot(data = data,
                 mapping = aes_string(x = "sale_month", y = input$y),
-                group = stores
+                group = groups
             )
 
             #Display ggplot
-            p + geom_line(aes(color = stores))
+            p + geom_line(aes(color = groups))
 
         } else if (input$graph_type == "Stacked Bar") {
 
             #Add fill handling for if there is no categorical variable
-            fill <- factor(data$store)
-            if (length(fill) == 0) { #if there is no store column
+            fill <- factor(data[[input$group]])
+            if (length(fill) == 0) { #if there is no group column
                 fill <- NULL
             }
 
@@ -237,13 +244,14 @@ server <- function(input, output) {
     })
 
     #By setting output's scatterplot variable, we link it to the ui
-    output$plot <- renderPlot({
-        graph_type() +
-        ggtitle(dynamic_title()) +
-        scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
-        theme(
-            axis.text.x = element_text(angle = 60, hjust = 1)
-        )
+    output$plot <- renderPlotly({
+        p <- graph_type() +
+            ggtitle(dynamic_title()) +
+            scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
+            theme(
+                axis.text.x = element_text(angle = 60, hjust = 1)
+            )
+        ggplotly(p)
     })
 
     output$table <- renderDataTable({
@@ -255,9 +263,9 @@ server <- function(input, output) {
         )
     })
 
-    output$click_info <- renderText({
-        paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
-    })
+    # output$click_info <- renderText({
+    #     paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
+    # })
 }
 
 #Create Shiny App by combining UI and Server

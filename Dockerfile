@@ -13,9 +13,11 @@ WORKDIR /app
 #Get Our R Package Installer so we can use Docker Build Cache effectively
 COPY install_package.r ./
     
-    #Install big packages seperately
+    #Install big packages seperately since they have longer compile times
+    #These are typically ENTIRE libraries
     RUN Rscript --no-save install_package.r shiny
     RUN Rscript --no-save install_package.r ggplot2
+    RUN Rscript --no-save install_package.r plotly
 
     #Install light packages at the same time
     RUN Rscript --no-save install_package.r lubridate DT
