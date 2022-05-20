@@ -4,15 +4,15 @@ Are you not satisfied with the analytical options that Spotify or Distrokid prov
 Do you wish that you could have all of your relevent artist data at the tip of your fingertips?
 Artist-Analytics is both a **web application** and an **ETL pipeline** designed to aggregate, visualize, and analyze artist data from all sorts of sources.
 
-The Web Application is powered by *R Shiny Web App*, while the ETL Pipeline was written in *Python Pandas*
+The Web Application is powered by [R Shiny](https://shiny.rstudio.com/), while the ETL Pipeline was written in [Python Pandas](https://pandas.pydata.org/).
 
 Some of the supported data sources include:
 
-- Distrokid (CSV)
-- Symphonic (CSV)
-- Spotify for Artists (CSV)
-- ASCAP (CSV)
-- Spotify for Developers (REST API / JSON)
+- [Distrokid](https://distrokid.com/) (CSV)
+- [Symphonic](https://symphonic.com/) (CSV)
+- [Spotify for Artists](https://artists.spotify.com/) (CSV)
+- [ASCAP](https://www.ascap.com/) (CSV)
+- [Spotify for Developers WEB API](https://developer.spotify.com/documentation/web-api/) JSON)
 
 **WARNING: This project is still REALLY WIP. I plan on improving both the UX and the DX**
 
