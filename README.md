@@ -27,13 +27,13 @@ As of right now, I have yet to setup the Docker image to be an executable image.
 
 ## Usage
 
-Put all relevent CSVs into a new folder named `data/`. Rename them based on the following schema:
+Put all relevant CSVs into a new folder named `data/`. Rename the files based on the following schema:
     
-``
-Distrokid - "DistroKid.csv"
-Symphonic - "symphonic.csv"
-ASCAP - "ascap.csv"
-``
+| Source | Exact Filename |
+| -------| -------------- |
+| Distrokid | "DistroKid.csv" |
+| Symphonic | "symphonic.csv" |
+| ASCAP | "ascap.csv" |
 
 ## Development
 
