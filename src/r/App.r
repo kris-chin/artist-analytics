@@ -112,7 +112,7 @@ ui <- fluidPage(
         #Main Display (output)
         mainPanel(
             plotOutput(
-                outputId = "scatterplot",
+                outputId = "plot",
                 click = "plot_click"
             ),
             dataTableOutput(
@@ -142,8 +142,8 @@ server <- function(input, output) {
         return_data <- merged_data[merged_data[[input$column_filter]] == filter_value(), ]
 
         #Get only a specifc date range of the data
-        return_data <- merged_data[
-            merged_data$sale_month >= input$date_range[1] & merged_data$sale_month <= input$date_range[2],
+        return_data <- return_data[
+            return_data$sale_month >= input$date_range[1] & return_data$sale_month <= input$date_range[2],
         ]
 
         #Aggregate data
@@ -237,7 +237,7 @@ server <- function(input, output) {
     })
 
     #By setting output's scatterplot variable, we link it to the ui
-    output$scatterplot <- renderPlot({
+    output$plot <- renderPlot({
         graph_type() +
         ggtitle(dynamic_title()) +
         scale_x_date(date_breaks = "1 month", date_labels = "%b %Y") +
