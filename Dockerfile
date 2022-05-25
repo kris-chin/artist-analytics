@@ -18,9 +18,10 @@ COPY install_package.r ./
     RUN Rscript --no-save install_package.r shiny
     RUN Rscript --no-save install_package.r ggplot2
     RUN Rscript --no-save install_package.r plotly
+    RUN Rscript --no-save install_package.r maps
 
     #Install light packages at the same time
-    RUN Rscript --no-save install_package.r lubridate DT
+    RUN Rscript --no-save install_package.r lubridate DT countrycode
 
 #Get Python Requirements
 COPY REQUIREMENTS.txt ./
