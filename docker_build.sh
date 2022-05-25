@@ -1,1 +1,0 @@
-docker build -t krischin/artist-data:dev .

@@ -11,7 +11,7 @@ RUN apt-get install -y r-base
 WORKDIR /app
 
 #Get Our R Package Installer so we can use Docker Build Cache effectively
-COPY install_package.r ./
+COPY scripts/install_package.r ./
     
     #Install big packages seperately since they have longer compile times
     #These are typically ENTIRE libraries
