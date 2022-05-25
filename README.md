@@ -23,8 +23,12 @@ Data Sources that I plan on adding:
 
 ## Installation for Users
 
-As of right now, I have yet to setup the Docker image to be an executable image. If you still want to use this software, you'll need to build and run the Docker image. **See "Development"**
+REQUIREMENTS: **docker**, **git**.
 
+After installing both docker and git, simply clone this github repository into a directory and run the respective setup script.
+
+See **Development** below. 
+ 
 ## Usage
 
 Put all relevant CSVs into a new folder named `data/`. Rename the files based on the following schema:
@@ -43,15 +47,16 @@ All of the required packages are specified in the Dockerfile, so all you have to
 
 #### Linux (Dockerfile)
 
-You can use the convenience scripts:
-
-    docker_build.sh <- Builds the Docker file
-    docker_run.sh <- Starts the Docker container with the appropriate settings
-    start.sh <- runs docker_build.sh and docker_run.sh
+    scripts/docker_build.sh <- Builds the Docker file
+    scripts/docker_run.sh <- Starts the Docker container with the appropriate settings
+    scripts/start.sh <- runs docker_build.sh and docker_run.sh
 
 #### Windows (Dockerfile)
 
-I plan on writing convenience scripts for Windows soon.
+    scripts/docker_build.bat <- Builds the Docker file
+    scripts/docker_run.bat <- Starts the Docker container with the appropriate settings
+    scripts/start.bat <- runs docker_build.bat and docker_run.bat
+    scripts/stop.bat <- stops the docker container since windows can't listen to CTRL+C for some reason
 
 ### Adding new Pipelines
 
