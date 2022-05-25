@@ -79,7 +79,7 @@ page_timeseries <- function(raw_data) {
                     outputId = "plot",
                 ),
                 dataTableOutput(
-                    outputId = "table"
+                    outputId = "plot_table"
                 )
             )
         )
@@ -259,7 +259,7 @@ page_timeseries <- function(raw_data) {
             ggplotly(p)
         })
 
-        output$table <- renderDataTable({
+        output$plot_table <- renderDataTable({
             DT::datatable(
                 data = display_data(),
                 options = list(

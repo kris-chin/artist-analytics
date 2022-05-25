@@ -11,9 +11,7 @@ source("/app/src/r/pages/Map.r", local = TRUE)
 #Change port so it's the same every time
 options(
     shiny.port = 8888,
-    shiny.host = "0.0.0.0",
-    shiny.error = browser,
-    shiny.fullstacktrace = TRUE
+    shiny.host = "0.0.0.0"
 )
 
 #Get Data
