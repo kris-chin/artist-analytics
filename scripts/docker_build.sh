@@ -1,3 +1,3 @@
 #!/bin/sh
 BASEDIR="$( cd  "$(dirname $0)" && cd .. && pwd )"
-docker build -t krischin/artist-data:dev "${BASEDIR}"
+docker build -ti krischin/artist-data:dev "${BASEDIR}"
