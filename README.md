@@ -23,7 +23,7 @@ Data Sources that I plan on adding:
 
 ## Installation for Users
 
-REQUIREMENTS: **docker**, **git**.
+REQUIREMENTS: [docker](https://docs.docker.com/get-docker/), [git](https://git-scm.com/downloads).
 
 After installing both docker and git, simply clone this github repository into a directory and run the respective setup script.
 
