@@ -24,7 +24,7 @@ page_map <- function(raw_data) {
         )
     )
 
-    shiny_page$server <- function(input, output) {
+    shiny_page$server <- function(input, output, session) {
 
         #This will be our values, and it should be the same lengh as our IDs
         display_data <- reactive({

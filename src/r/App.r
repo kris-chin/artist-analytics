@@ -3,6 +3,8 @@ library(ggplot2)
 library(lubridate)
 library(DT)
 library(plotly)
+library(shinyjs)
+library(dplyr)
 
 #Import pages
 source("/app/src/r/pages/TimeSeries.r", local = TRUE)
@@ -12,6 +14,7 @@ source("/app/src/r/pages/Map.r", local = TRUE)
 options(
     shiny.port = 8888,
     shiny.host = "0.0.0.0"
+    # shiny.fullstacktrace = TRUE #enable full stack trace. usually doesn't help
 )
 
 #Get Data
@@ -32,15 +35,17 @@ map <- page_map(merged_data)
 #UI
 ui <- {
     navbarPage("Artist-Analytics",
+        #Enable ShinyJS
+        shinyjs::useShinyjs(),
         tabPanel("Time-Series", timeseries$ui),
         tabPanel("Map", map$ui)
     )
 }
 
 #Server
-server <- function(input, output) {
-    timeseries$server(input, output)
-    map$server(input, output)
+server <- function(input, output, session) {
+    timeseries$server(input, output, session)
+    map$server(input, output, session)
 }
 
 #Create Shiny App by combining UI and Server

@@ -1,3 +1,5 @@
+source("/app/src/r/components/ModularFactors.r", local = TRUE)
+
 page_timeseries <- function(raw_data) {
     shiny_page <- NULL
 
@@ -71,6 +73,10 @@ page_timeseries <- function(raw_data) {
                     outputId = "select_daterange"
                 ),
 
+                uiOutput(
+                    outputId ="component_modularfactors"
+                )
+
             ),
 
             #Main Display (output)
@@ -85,7 +91,9 @@ page_timeseries <- function(raw_data) {
         )
     )
 
-    shiny_page$server <- function(input, output) {
+    shiny_page$server <- function(input, output, session) {
+
+        modularfactors <- ui_modularfactors(input, raw_data)
 
         #Reactive UI output (seperated from UI)
         output$select_artist <- renderUI({
@@ -135,6 +143,9 @@ page_timeseries <- function(raw_data) {
             )
         })
 
+        #Add our ModularFactors component
+        output$component_modularfactors <- modularfactors$ui_render()
+
         #=========================================================
 
         #Get the data from our conditoinal filter
@@ -150,8 +161,12 @@ page_timeseries <- function(raw_data) {
 
         #Get data based off of our input values
         display_data <- reactive({
-            #Get data based on filter
-            return_data <- raw_data[raw_data[[input$column_filter]] == filter_value(), ]
+
+            #Get the Filtered Factor data from ModularFactors
+            return_data <- modularfactors$filter_data()
+
+            #Get data based on categorical filter
+            return_data <- return_data[return_data[[input$column_filter]] == filter_value(), ]
 
             #Get only a specifc date range of the data
             return_data <- return_data[
