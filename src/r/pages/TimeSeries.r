@@ -38,6 +38,12 @@ page_timeseries <- function(raw_data) {
 
                 shiny::uiOutput(outputId = "select_y"),
 
+                shiny::checkboxInput(
+                    inputId = "normalize_values",
+                    label = "Normalize Values? (Enables External Y-values)",
+                    value = TRUE
+                ),
+
                 shiny::selectInput(
                     inputId = "group",
                     label = "Group By",
@@ -59,12 +65,6 @@ page_timeseries <- function(raw_data) {
                         choices = c("Category", "Complete"),
                         selected = "Category"
                     )
-                ),
-
-                shiny::checkboxInput(
-                    inputId = "normalize_values",
-                    label = "Normalize Values? (Enables External Y-values)",
-                    value = TRUE
                 ),
 
                 shiny::conditionalPanel(
