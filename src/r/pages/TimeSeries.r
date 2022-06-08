@@ -48,7 +48,7 @@ page_timeseries <- function(raw_data) {
                 shiny::checkboxInput(
                     inputId = "aggregate_x",
                     label = "Aggregate values that share same X value",
-                    value = FALSE
+                    value = TRUE
                 ),
 
                 shiny::conditionalPanel(
@@ -63,12 +63,12 @@ page_timeseries <- function(raw_data) {
 
                 shiny::checkboxInput(
                     inputId = "normalize_values",
-                    label = "Normalize Values? (Enables Multi-Y Plots)",
-                    value = FALSE
+                    label = "Normalize Values? (Enables External Y-values)",
+                    value = TRUE
                 ),
 
                 shiny::conditionalPanel(
-                    condition = "input.normalize_values == true",
+                    condition = "(input.normalize_values == true) && (input.aggregate_method == 'Category')",
                     shiny::checkboxInput(
                         inputId = "normalize_categories",
                         label = "Normalize Categories?",
@@ -79,7 +79,8 @@ page_timeseries <- function(raw_data) {
                 shiny::selectInput(
                     inputId = "graph_type",
                     label = "Graph Type",
-                    choices = c("Scatterplot", "Line", "Stacked Bar")
+                    choices = c("Scatterplot", "Line", "Stacked Bar"),
+                    selected = "Line"
                 ),
 
                 shiny::uiOutput(
@@ -137,12 +138,21 @@ page_timeseries <- function(raw_data) {
         })
 
         output$select_y <- shiny::renderUI({
-            shiny::selectInput(
-                inputId = "y",
-                label = "Y-axis",
-                choices = colnames(raw_data),
-                selected = "quantity"
+            list(
+                shiny::selectInput(
+                    inputId = "y",
+                    label = "MAIN Y-axis variable",
+                    choices = colnames(raw_data),
+                    selected = "quantity"
+                ),
+                #TODO: secondary y-axis variable (to be displayed on the right-side of the graph)
+                shiny::selectInput(
+                    inputId = "y2",
+                    label = "SECONDARY Y-axis variable (WIP)",
+                    choices = c(),
+                )
             )
+
         })
 
         output$select_daterange <- shiny::renderUI({
