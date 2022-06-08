@@ -144,7 +144,12 @@ page_timeseries <- function(raw_data) {
         })
 
         #Add our ModularFactors component
-        output$component_modularfactors <- modularfactors$ui_render()
+        output$component_modularfactors <- renderUI({
+            conditionalPanel(
+                condition = "input.aggregate_method == 'Category'",
+                modularfactors$ui_render()
+            )
+        })
 
         #=========================================================
 
@@ -163,7 +168,11 @@ page_timeseries <- function(raw_data) {
         display_data <- reactive({
 
             #Get the Filtered Factor data from ModularFactors
-            return_data <- modularfactors$filter_data()
+            if (input$aggregate_method == "Category"){
+                return_data <- modularfactors$filter_data()
+            } else {
+                return_data <- raw_data
+            }
 
             #Get data based on categorical filter
             return_data <- return_data[return_data[[input$column_filter]] == filter_value(), ]
