@@ -61,7 +61,11 @@ page_timeseries <- function(raw_data) {
                     )
                 ),
 
-                verbatimTextOutput("click_info"),
+                checkboxInput(
+                    inputId = "normalize_values",
+                    label = "Normalize Values? (Enables Multi-Y Plots)",
+                    value = FALSE
+                ),
 
                 selectInput(
                     inputId = "graph_type",
@@ -152,6 +156,8 @@ page_timeseries <- function(raw_data) {
         })
 
         #=========================================================
+        #                    Data Transformation
+        #=========================================================
 
         #Get the data from our conditoinal filter
         filter_value <- reactive({
@@ -211,6 +217,27 @@ page_timeseries <- function(raw_data) {
                         )
                     }
                 }
+            }
+
+            #Normalize Data via Min-Max Scaling through caret
+            if (input$normalize_values == TRUE) {
+
+                #TODO: per-category normalization?
+
+                #first, do the processing
+                process <- caret::preProcess(
+                    as.data.frame(return_data[[input$y]]),
+                    method=c("range")
+                )
+
+                #next, get our values
+                normalized <- predict(
+                    process,
+                    as.data.frame(return_data[[input$y]])
+                )
+
+                #finally, assign our values to our data
+                return_data[[input$y]] <- unlist(normalized)
             }
 
             return_data

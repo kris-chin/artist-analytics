@@ -5,6 +5,7 @@ library(DT)
 library(plotly)
 library(shinyjs)
 library(dplyr)
+library(caret)
 
 #Import pages
 source("/app/src/r/pages/TimeSeries.r", local = TRUE)
