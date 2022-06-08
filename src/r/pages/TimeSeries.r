@@ -1,7 +1,12 @@
 source("/app/src/r/components/ModularFactors.r", local = TRUE)
 
-page_timeseries <- function(raw_data) {
+page_timeseries <- function(raw_data, test_data) {
     shiny_page <- NULL
+    
+    #See if any extra data was implemented
+    if (missing(test_data)){
+        test_data <- NULL
+    }
 
     shiny_page$ui <- shiny::fluidPage(
         #App Title
@@ -307,12 +312,17 @@ page_timeseries <- function(raw_data) {
             data <- display_data()
 
             if (input$graph_type == "Scatterplot") {
-                ggplot(data = data,
+
+                p <- ggplot(data = data,
                     mapping = aes_string(x = "sale_month", y = input$y)
-                ) +
-                geom_point(
+                )
+
+                p <- p + geom_point(
                     aes(color = .data[[input$group]])
                 )
+
+                p
+
             } else if (input$graph_type == "Line") {
 
                 groups <- factor(data[[input$group]])
@@ -327,7 +337,21 @@ page_timeseries <- function(raw_data) {
                 )
 
                 #Display ggplot
-                p + geom_line(aes(color = groups))
+                p <- p + geom_line(aes(color = groups))
+
+                #Add handling for extra data
+                #TODO: Normalize this data and show it as an option on UI
+                if (!is.null(test_data)){
+                    p <- p + geom_line(
+                        data = test_data,
+                        mapping = aes_string(
+                            x = "sale_month",
+                            y = "value"
+                        )
+                    )
+                }
+
+                p
 
             } else if (input$graph_type == "Stacked Bar") {
 
@@ -337,17 +361,19 @@ page_timeseries <- function(raw_data) {
                     fill <- NULL
                 }
 
-                ggplot(data = data,
+                p <- ggplot(data = data,
                     mapping = aes_string(
                         x = "sale_month",
                         y = input$y,
                         fill = fill
                     )
-                ) +
-                geom_bar(
+                )
+                p <- p + geom_bar(
                     position = "stack",
                     stat = "identity"
                 )
+
+                p
             }
         })
 

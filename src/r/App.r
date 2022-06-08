@@ -24,13 +24,23 @@ merged_data <- read.csv(
     header = TRUE,
     stringsAsFactors = FALSE
 )
-
-#First use lubridate to parse the date into a POSIX date,
-#then convert to date object
+#Use lubridate to parse the date into a POSIX date, then convert to date object
 merged_data$sale_month <- as.Date(parse_date_time(merged_data$sale_month, "ym"))
 
+
+test_points <- read.csv(
+    file = "/app/output/test_points.csv",
+    header = TRUE,
+    stringsAsFactors = FALSE
+)
+test_points$sale_month <- as.Date(parse_date_time(test_points$sale_month, "ym"))
+
+
 #Define Pages
-timeseries <- page_timeseries(merged_data)
+timeseries <- page_timeseries(merged_data,
+    #Save our test_data in an extra_data object
+    test_data = test_points
+)
 map <- page_map(merged_data)
 
 #UI
