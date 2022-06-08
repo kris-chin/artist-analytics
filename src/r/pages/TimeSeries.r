@@ -67,6 +67,15 @@ page_timeseries <- function(raw_data) {
                     value = FALSE
                 ),
 
+                shiny::conditionalPanel(
+                    condition = "input.normalize_values == true",
+                    shiny::checkboxInput(
+                        inputId = "normalize_categories",
+                        label = "Normalize Categories?",
+                        value = FALSE
+                    )
+                ),
+
                 shiny::selectInput(
                     inputId = "graph_type",
                     label = "Graph Type",
@@ -88,7 +97,7 @@ page_timeseries <- function(raw_data) {
                 plotly::plotlyOutput(
                     outputId = "plot",
                 ),
-                shiny::dataTableOutput(
+                DT::dataTableOutput(
                     outputId = "plot_table"
                 )
             )
@@ -222,22 +231,60 @@ page_timeseries <- function(raw_data) {
             #Normalize Data via Min-Max Scaling through caret
             if (input$normalize_values == TRUE) {
 
-                #TODO: per-category normalization?
+                #are we doing per-category noramlization or just overall normalization?
+                if (input$normalize_categories == TRUE) {
+                    
+                    #get our groups
+                    groups <- unique(return_data[[input$group]])
 
-                #first, do the processing
-                process <- caret::preProcess(
-                    as.data.frame(return_data[[input$y]]),
-                    method=c("range")
-                )
+                    #Iterate through each group
+                    for (group_name in groups) {
 
-                #next, get our values
-                normalized <- predict(
-                    process,
-                    as.data.frame(return_data[[input$y]])
-                )
+                        #first, get all values that share the same group name
+                        group_data <- return_data[ return_data[[input$group]] == group_name, ]
 
-                #finally, assign our values to our data
-                return_data[[input$y]] <- unlist(normalized)
+                        #Check if input$y has near-zero variance (which affects our preprocessing)
+                        zerovar_column_numbers <- caret::nearZeroVar(group_data[[input$y]])
+                        if (length(zerovar_column_numbers) >= 1){ #if the column has near-zero variance,
+                           #remove data that has near-zero variance
+                           return_data <- return_data[ return_data[[input$group]] != group_name, ]
+
+                        } else {
+                            #next, process the values
+                            process <- caret::preProcess(
+                                as.data.frame(group_data[[input$y]]),
+                                method=c("range")
+                            )
+                            
+                            #next, get our values from the process
+                            normalized <- predict(
+                                process,
+                                as.data.frame(group_data[[input$y]])
+                            )
+
+                            #finally, assign these values to our values that match the group
+                            return_data[ return_data[[input$group]] == group_name, ][[input$y]] <- unlist(normalized)
+                        }
+
+
+                    }
+
+                } else {
+                    #first, do the processing
+                    process <- caret::preProcess(
+                        as.data.frame(return_data[[input$y]]),
+                        method=c("range")
+                    )
+
+                    #next, get our values
+                    normalized <- predict(
+                        process,
+                        as.data.frame(return_data[[input$y]])
+                    )
+
+                    #finally, assign our values to our data
+                    return_data[[input$y]] <- unlist(normalized)
+                }
             }
 
             return_data
