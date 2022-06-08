@@ -6,18 +6,18 @@ page_map <- function(raw_data) {
     shiny_page <- NULL
 
     shiny_page$ui <- fluidPage(
-        titlePanel("Map"),
+        shiny::titlePanel("Map"),
 
-        sidebarLayout(
-            sidebarPanel(
+        shiny::sidebarLayout(
+            shiny::sidebarPanel(
 
             ),
 
-            mainPanel(
-                uiOutput(
+            shiny::mainPanel(
+                shiny::uiOutput(
                     outputId = "map_ui"
                 ),
-                dataTableOutput(
+                shiny::dataTableOutput(
                     outputId = "map_table"
                 )
             )

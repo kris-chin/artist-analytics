@@ -3,17 +3,17 @@ source("/app/src/r/components/ModularFactors.r", local = TRUE)
 page_timeseries <- function(raw_data) {
     shiny_page <- NULL
 
-    shiny_page$ui <- fluidPage(
+    shiny_page$ui <- shiny::fluidPage(
         #App Title
-        titlePanel("Time Series Analysis"),
+        shiny::titlePanel("Time Series Analysis"),
 
         #Display a layout with a sidebar
-        sidebarLayout(
+        shiny::sidebarLayout(
 
             #Provide a space for us to change our Inputs
-            sidebarPanel(
+            shiny::sidebarPanel(
 
-                selectInput(
+                shiny::selectInput(
                     inputId = "column_filter",
                     label = "Filter by:",
                     choices = c("artist", "isrc", "song_title"),
@@ -21,39 +21,39 @@ page_timeseries <- function(raw_data) {
                 ),
 
                 #Show this panel if "Artist Name" is selected
-                conditionalPanel(
+                shiny::conditionalPanel(
                     condition = "input.column_filter == 'artist'",
-                    uiOutput(outputId = "select_artist")
+                    shiny::uiOutput(outputId = "select_artist")
                 ),
 
-                conditionalPanel(
+                shiny::conditionalPanel(
                     condition = "input.column_filter == 'isrc'",
-                    uiOutput(outputId = "select_isrc")
+                    shiny::uiOutput(outputId = "select_isrc")
                 ),
 
-                conditionalPanel(
+                shiny::conditionalPanel(
                     condition = "input.column_filter == 'song_title'",
-                    uiOutput(outputId = "select_songtitle")
+                    shiny::uiOutput(outputId = "select_songtitle")
                 ),
 
-                uiOutput(outputId = "select_y"),
+                shiny::uiOutput(outputId = "select_y"),
 
-                selectInput(
+                shiny::selectInput(
                     inputId = "group",
                     label = "Group By",
                     choices = c("store", "country"),
                     selected = "store"
                 ),
 
-                checkboxInput(
+                shiny::checkboxInput(
                     inputId = "aggregate_x",
                     label = "Aggregate values that share same X value",
                     value = FALSE
                 ),
 
-                conditionalPanel(
+                shiny::conditionalPanel(
                     condition = "input.aggregate_x == true",
-                    selectInput(
+                    shiny::selectInput(
                         inputId = "aggregate_method",
                         label = "Aggregate Method",
                         choices = c("Category", "Complete"),
@@ -61,34 +61,34 @@ page_timeseries <- function(raw_data) {
                     )
                 ),
 
-                checkboxInput(
+                shiny::checkboxInput(
                     inputId = "normalize_values",
                     label = "Normalize Values? (Enables Multi-Y Plots)",
                     value = FALSE
                 ),
 
-                selectInput(
+                shiny::selectInput(
                     inputId = "graph_type",
                     label = "Graph Type",
                     choices = c("Scatterplot", "Line", "Stacked Bar")
                 ),
 
-                uiOutput(
+                shiny::uiOutput(
                     outputId = "select_daterange"
                 ),
 
-                uiOutput(
+                shiny::uiOutput(
                     outputId ="component_modularfactors"
                 )
 
             ),
 
             #Main Display (output)
-            mainPanel(
-                plotlyOutput(
+            shiny::mainPanel(
+                plotly::plotlyOutput(
                     outputId = "plot",
                 ),
-                dataTableOutput(
+                shiny::dataTableOutput(
                     outputId = "plot_table"
                 )
             )
@@ -100,8 +100,8 @@ page_timeseries <- function(raw_data) {
         modularfactors <- ui_modularfactors(input, raw_data)
 
         #Reactive UI output (seperated from UI)
-        output$select_artist <- renderUI({
-            selectInput(
+        output$select_artist <- shiny::renderUI({
+            shiny::selectInput(
                 inputId = "filter_artist",
                 label = "Artist",
                 choices = unique(raw_data$artist),
@@ -109,8 +109,8 @@ page_timeseries <- function(raw_data) {
             )
         })
 
-        output$select_isrc <- renderUI({
-            selectInput(
+        output$select_isrc <- shiny::renderUI({
+            shiny::selectInput(
                 inputId = "filter_isrc",
                 label = "ISRC",
                 choices = unique(raw_data$isrc),
@@ -118,8 +118,8 @@ page_timeseries <- function(raw_data) {
             )
         })
 
-        output$select_songtitle <- renderUI({
-            selectInput(
+        output$select_songtitle <- shiny::renderUI({
+            shiny::selectInput(
                 inputId = "filter_songTitle",
                 label = "Song Title",
                 choices = unique(raw_data$song_title),
@@ -127,8 +127,8 @@ page_timeseries <- function(raw_data) {
             )
         })
 
-        output$select_y <- renderUI({
-            selectInput(
+        output$select_y <- shiny::renderUI({
+            shiny::selectInput(
                 inputId = "y",
                 label = "Y-axis",
                 choices = colnames(raw_data),
@@ -136,8 +136,8 @@ page_timeseries <- function(raw_data) {
             )
         })
 
-        output$select_daterange <- renderUI({
-            sliderInput(
+        output$select_daterange <- shiny::renderUI({
+            shiny::sliderInput(
                 inputId = "date_range",
                 label = "Date Range",
                 min = raw_data$sale_month[1],
@@ -148,8 +148,8 @@ page_timeseries <- function(raw_data) {
         })
 
         #Add our ModularFactors component
-        output$component_modularfactors <- renderUI({
-            conditionalPanel(
+        output$component_modularfactors <- shiny::renderUI({
+            shiny::conditionalPanel(
                 condition = "input.aggregate_method == 'Category'",
                 modularfactors$ui_render()
             )

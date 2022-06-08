@@ -35,11 +35,11 @@ map <- page_map(merged_data)
 
 #UI
 ui <- {
-    navbarPage("Artist-Analytics",
+    shiny::navbarPage("Artist-Analytics",
         #Enable ShinyJS
         shinyjs::useShinyjs(),
-        tabPanel("Time-Series", timeseries$ui),
-        tabPanel("Map", map$ui)
+        shiny::tabPanel("Time-Series", timeseries$ui),
+        shiny::tabPanel("Map", map$ui)
     )
 }
 
@@ -50,4 +50,4 @@ server <- function(input, output, session) {
 }
 
 #Create Shiny App by combining UI and Server
-shinyApp(ui = ui, server = server)
+shiny::shinyApp(ui = ui, server = server)
